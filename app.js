@@ -1,25 +1,49 @@
 //$(function() {
 
-function init_map() {
-    var var_location = new google.maps.LatLng(45.430817, 12.331516);
+var map;
+var infowindow;
 
-    var var_mapoptions = {
-        center: var_location,
-        zoom: 14
+function initMap() {
+    var pyrmont = {
+        lat: -33.867,
+        lng: 151.195
     };
 
-    var var_marker = new google.maps.Marker({
-        position: var_location,
-        map: var_map,
-        title: "Venice"
+    map = new google.maps.Map(document.getElementById('map'), {
+        center: pyrmont,
+        zoom: 15
     });
 
-    var var_map = new google.maps.Map(document.getElementById("map"),
-        var_mapoptions);
-
-    var_marker.setMap(var_map);
-
+    infowindow = new google.maps.InfoWindow();
+    var service = new google.maps.places.PlacesService(map);
+    service.nearbySearch({
+        location: pyrmont,
+        radius: 500,
+        type: ['store']
+    }, callback);
 }
+
+function callback(results, status) {
+    if (status === google.maps.places.PlacesServiceStatus.OK) {
+        for (var i = 0; i < results.length; i++) {
+            createMarker(results[i]);
+        }
+    }
+}
+
+function createMarker(place) {
+    var placeLoc = place.geometry.location;
+    var marker = new google.maps.Marker({
+        map: map,
+        position: place.geometry.location
+    });
+
+    google.maps.event.addListener(marker, 'click', function() {
+        infowindow.setContent(place.name);
+        infowindow.open(map, this);
+    });
+}
+
 
 //google.maps.event.addDomListener(window, 'load', init_map);
 //});
