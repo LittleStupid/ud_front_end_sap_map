@@ -32,6 +32,9 @@ function callback(results, status) {
 }
 
 function createMarker(place) {
+    var marker_detail = $('#myModal');
+    var marker_detail_title = $('#myModalLabel')
+
     var placeLoc = place.geometry.location;
     var marker = new google.maps.Marker({
         map: map,
@@ -42,10 +45,15 @@ function createMarker(place) {
         infowindow.setContent(place.name);
         infowindow.open(map, this);
 
-        $('#myModal').modal('show');
 
+        //marker_detail.querySelector("#child").style.display = "none";
+        console.log(marker_detail_title);
+        marker_detail_title.text(place.name);
+        marker_detail.modal('show');
+
+        console.log(marker_detail_title);
         //console.log('MARK CLICKED');
-        //console.log(map);
+        console.log(place);
     });
 }
 
