@@ -41,6 +41,7 @@ function callback(results, status) {
     function ListGroupViewModel() {
         var self = this;
 
+        self.filter_str = ko.observable('');
         self.placeNames = ko.observableArray();
         console.log(placeNameList);
 
@@ -50,8 +51,11 @@ function callback(results, status) {
 
         self.Filter = function(sub_str) {
             self.placeNames.remove(function(item) {
+                if (self.filter_str() == '') {
+                    return false;
+                }
                 //console.log(item.name);
-                return (item.name.indexOf('Lo') > -1);
+                return (item.name.indexOf(self.filter_str()) > -1);
                 //console.log(item.name.indexOf(sub_str));
             });
             //console.log("FILTER");
