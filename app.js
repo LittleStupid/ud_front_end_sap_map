@@ -41,6 +41,9 @@ function createMarker(place) {
     google.maps.event.addListener(marker, 'click', function() {
         infowindow.setContent(place.name);
         infowindow.open(map, this);
+
+        //console.log('MARK CLICKED');
+        //console.log(map);
     });
 }
 
@@ -54,10 +57,9 @@ $(function() {
     var brand_icon = $('#nav_brand_icon');
     var left_list_group = $('#left_board');
     var right_map = $('#map');
+    var filter_box = $('#filter_box');
 
     brand_icon.on('click', function() {
-        console.log("BRAND ICON CLICKED");
-
         if (left_list_group.hasClass('hidden-sm hidden-xs')) {
             left_list_group.toggleClass('hidden-sm hidden-xs');
 
@@ -70,6 +72,4 @@ $(function() {
             right_map.addClass('col-sm-12 col-xs-12');
         }
     });
-
-    console.log(brand_icon);
 }());

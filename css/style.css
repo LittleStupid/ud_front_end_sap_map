@@ -1,3 +1,7 @@
 #map {
   height: 90vh;
 };
+
+#filter_box {
+  width: 60%;
+};
