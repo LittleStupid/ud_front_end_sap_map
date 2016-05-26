@@ -45,8 +45,17 @@ function callback(results, status) {
         console.log(placeNameList);
 
         for (var i = 0; i < placeNameList.length; i++) {
-            //for (var i = 0; i < 10; i++) {
             self.placeNames.push(new PlaceName(placeNameList[i]));
+        }
+
+        self.Filter = function(sub_str) {
+            self.placeNames.remove(function(item) {
+                //console.log(item.name);
+                return (item.name.indexOf('Lo') > -1);
+                //console.log(item.name.indexOf(sub_str));
+            });
+            //console.log("FILTER");
+            //console.log(self.placeNames());
         }
     }
 
