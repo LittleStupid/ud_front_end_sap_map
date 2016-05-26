@@ -42,6 +42,8 @@ function createMarker(place) {
         infowindow.setContent(place.name);
         infowindow.open(map, this);
 
+        $('#myModal').modal('show');
+
         //console.log('MARK CLICKED');
         //console.log(map);
     });
