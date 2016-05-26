@@ -3,6 +3,8 @@
 var map;
 var infowindow;
 
+var placeNameList = [];
+
 function initMap() {
     var pyrmont = {
         lat: -33.867,
@@ -27,8 +29,28 @@ function callback(results, status) {
     if (status === google.maps.places.PlacesServiceStatus.OK) {
         for (var i = 0; i < results.length; i++) {
             createMarker(results[i]);
+            placeNameList.push(results[i].name);
         }
     }
+
+    function PlaceName(name) {
+        var self = this;
+        self.name = name;
+    }
+
+    function ListGroupViewModel() {
+        var self = this;
+
+        self.placeNames = ko.observableArray();
+        console.log(placeNameList);
+
+        for (var i = 0; i < placeNameList.length; i++) {
+            //for (var i = 0; i < 10; i++) {
+            self.placeNames.push(new PlaceName(placeNameList[i]));
+        }
+    }
+
+    ko.applyBindings(new ListGroupViewModel());
 }
 
 function createMarker(place) {
@@ -82,4 +104,27 @@ $(function() {
             right_map.addClass('col-sm-12 col-xs-12');
         }
     });
+
+    //////////////
+    /*
+    function PlaceName(name) {
+        var self = this;
+        self.name = name;
+    }
+
+    function ListGroupViewModel() {
+        var self = this;
+
+        self.placeNames = ko.observableArray();
+        console.log(placeNameList);
+
+        //for (var i = 0; i < placeNameList.length; i++) {
+        for (var i = 0; i < 10; i++) {
+            self.placeNames.push(new PlaceName("hello"));
+        }
+    }
+
+    ko.applyBindings(new ListGroupViewModel());
+    */
 }());
+/////////////////////////////////
