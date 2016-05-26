@@ -22,19 +22,19 @@
 
 <body>
 
-    <nav class="navbar navbar-default">
+    <nav class="navbar navbar-default hidden-lg hidden-md">
         <div class="container-fluid">
             <div class="navbar-header">
                 <a class="navbar-brand" href="#">
-                    <i class="glyphicon glyphicon-align-justify"></i>
+                    <i id="nav_brand_icon" class="glyphicon glyphicon-align-justify"></i>
                 </a>
             </div>
         </div>
     </nav>
 
-    <main class="container">
+    <main class="container-fluid">
         <div class="row">
-            <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+            <div id="left_board" class="col-lg-4 col-md-4 col-sm-4 col-xs-4 hidden-sm hidden-xs">
                 <div class="list-group">
                     <a href="#" class="list-group-item active">Cras justo odio</a>
                     <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
@@ -44,7 +44,7 @@
                 </div>
             </div>
 
-            <div id="map" class="col-lg-8 col-md-8 col-sm-8 col-xs-8"></div>
+            <div id="map" class="col-lg-8 col-md-8 col-sm-12 col-xs-12 show-lg show-md"></div>
         </div>
 
 

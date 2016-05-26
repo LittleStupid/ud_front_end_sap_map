@@ -47,3 +47,29 @@ function createMarker(place) {
 
 //google.maps.event.addDomListener(window, 'load', init_map);
 //});
+
+$(function() {
+    console.log("test Init")
+
+    var brand_icon = $('#nav_brand_icon');
+    var left_list_group = $('#left_board');
+    var right_map = $('#map');
+
+    brand_icon.on('click', function() {
+        console.log("BRAND ICON CLICKED");
+
+        if (left_list_group.hasClass('hidden-sm hidden-xs')) {
+            left_list_group.toggleClass('hidden-sm hidden-xs');
+
+            right_map.toggleClass('col-sm-12 col-xs-12');
+            right_map.addClass('col-sm-8 col-xs-8');
+        } else {
+            left_list_group.toggleClass('hidden-sm hidden-xs');
+
+            right_map.toggleClass('col-sm-8 col-xs-8');
+            right_map.addClass('col-sm-12 col-xs-12');
+        }
+    });
+
+    console.log(brand_icon);
+}());
