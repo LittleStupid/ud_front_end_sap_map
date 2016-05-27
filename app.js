@@ -26,6 +26,14 @@ function initMap() {
     }, callback);
 }
 
+function stopAllMarksAnimation() {
+    for (var key in markers) {
+        if (markers[key].getAnimation() !== null) {
+            markers[key].setAnimation(null);
+        }
+    }
+}
+
 function callback(results, status) {
     if (status === google.maps.places.PlacesServiceStatus.OK) {
         for (var i = 0; i < results.length; i++) {
@@ -85,10 +93,14 @@ function createMarker(place) {
     var placeLoc = place.geometry.location;
     var marker = new google.maps.Marker({
         map: map,
-        position: place.geometry.location
+        position: place.geometry.location,
+        animation: google.maps.Animation.DROP
     });
 
     google.maps.event.addListener(marker, 'click', function() {
+        stopAllMarksAnimation();
+        marker.setAnimation(google.maps.Animation.BOUNCE);
+
         infowindow.setContent(place.name);
         //infowindow.open(map, this);
 
@@ -128,5 +140,4 @@ $(function() {
             rightMap.addClass('col-sm-12 col-xs-12');
         }
     });
-
 }());
