@@ -94,7 +94,7 @@ function createMarker(place) {
 
     google.maps.event.addListener(marker, 'click', function() {
         infowindow.setContent(place.name);
-        infowindow.open(map, this);
+        //infowindow.open(map, this);
 
 
         //marker_detail.querySelector("#child").style.display = "none";
