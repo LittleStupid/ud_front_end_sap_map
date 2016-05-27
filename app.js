@@ -80,6 +80,7 @@ function callback(results, status) {
 function createMarker(place) {
     var markerDetail = $('#myModal');
     var markerDetailTitle = $('#myModalLabel')
+    var modalImg = $('#streetImg');
 
     var placeLoc = place.geometry.location;
     var marker = new google.maps.Marker({
@@ -93,14 +94,18 @@ function createMarker(place) {
 
         //console.log(place);
         //console.log(marker);
+        lat = place.geometry.location.lat();
+        lng = place.geometry.location.lng();
+        var address = 'https://maps.googleapis.com/maps/api/streetview?size=400x400&fov=90&heading=235&pitch=10&key=AIzaSyBW0BnFi_VnKwIYhLU7l875RVO3HeGIgpI&location=' + lat + ',' + lng;
+        console.log(address);
+        modalImg.attr('src', address);
         markerDetailTitle.text(place.name);
         markerDetail.modal('show');
     });
 
     return marker;
 }
-
-//https://maps.googleapis.com/maps/api/streetview?size=400x400&fov=90&heading=235&pitch=10&key=AIzaSyBW0BnFi_VnKwIYhLU7l875RVO3HeGIgpI&location=40.720032,-73.988354
+//'https://maps.googleapis.com/maps/api/streetview?size=400x400&fov=90&heading=235&pitch=10&key=AIzaSyBW0BnFi_VnKwIYhLU7l875RVO3HeGIgpI&location=' + lat + ',' + lng
 
 $(function() {
     console.log("test Init")
@@ -125,4 +130,3 @@ $(function() {
     });
 
 }());
-/////////////////////////////////
