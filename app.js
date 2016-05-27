@@ -49,7 +49,7 @@ function callback(results, status) {
             self.placeNames.push(new PlaceName(placeNameList[i]));
         }
 
-        self.Filter = function(sub_str) {
+        self.Filter = ko.computed(function(sub_str) {
             self.placeNames.remove(function(item) {
                 if (self.filter_str() == '') {
                     return false;
@@ -60,7 +60,7 @@ function callback(results, status) {
             });
             //console.log("FILTER");
             //console.log(self.placeNames());
-        }
+        }, this);
     }
 
     ko.applyBindings(new ListGroupViewModel());
