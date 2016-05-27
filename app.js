@@ -45,13 +45,11 @@ function callback(results, status) {
 
         self.filter_str = ko.observable('');
         self.placeNames = ko.observableArray();
-        //console.log(placeList);
 
         for (var i = 0; i < placeList.length; i++) {
             self.placeNames.push(new PlaceName(placeList[i].name));
         }
 
-        console.log(markers);
         self.Filter = ko.computed(function(sub_str) {
             self.placeNames([]);
             for (var i = 0; i < placeList.length; i++) {
@@ -66,9 +64,6 @@ function callback(results, status) {
                 return (item.name.indexOf(self.filter_str()) <= -1);
             });
 
-            console.log("Rmv List");
-            console.log(removeList);
-            console.log(markers);
             for (var i = 0; i < removeList.length; i++) {
                 for (var key in markers) {
                     if (key == removeList[i].name) {
@@ -96,15 +91,9 @@ function createMarker(place) {
         infowindow.setContent(place.name);
         //infowindow.open(map, this);
 
-
-        //marker_detail.querySelector("#child").style.display = "none";
-        console.log(marker_detail_title);
+        console.log(place);
         marker_detail_title.text(place.name);
         marker_detail.modal('show');
-
-        console.log(marker_detail_title);
-        //console.log('MARK CLICKED');
-        console.log(place);
     });
 
     return marker;
