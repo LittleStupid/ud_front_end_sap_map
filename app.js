@@ -126,12 +126,13 @@ function createMarker(place) {
 $(function() {
     console.log("test Init")
 
-    var brandIcon = $('#nav_brandIcon');
-    var leftListGroup = $('#left_board');
+    var brandIcon = $('#navBrandIcon');
+    var leftListGroup = $('#leftBoard');
     var rightMap = $('#map');
     var filterBox = $('#filterBox');
 
     brandIcon.on('click', function() {
+        console.log('BRAND CLICK');
         if (leftListGroup.hasClass('hidden-sm hidden-xs')) {
             leftListGroup.toggleClass('hidden-sm hidden-xs');
 
