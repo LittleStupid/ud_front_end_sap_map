@@ -80,6 +80,10 @@ function callback(results, status) {
                 }
             }
         }, this);
+
+        self.listItemClick = function(info) {
+            google.maps.event.trigger(markers[info.name], 'click');
+        }
     }
 
     ko.applyBindings(new ListGroupViewModel());
