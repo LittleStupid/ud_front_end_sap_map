@@ -3,7 +3,8 @@
 var map;
 var infowindow;
 
-var placeNameList = [];
+var placeList = [];
+var markers = {};
 
 function initMap() {
     var pyrmont = {
@@ -28,8 +29,9 @@ function initMap() {
 function callback(results, status) {
     if (status === google.maps.places.PlacesServiceStatus.OK) {
         for (var i = 0; i < results.length; i++) {
-            createMarker(results[i]);
-            placeNameList.push(results[i].name);
+            markers[results[i].name] = createMarker(results[i]);
+            placeList.push(results[i]);
+
         }
     }
 
@@ -43,23 +45,37 @@ function callback(results, status) {
 
         self.filter_str = ko.observable('');
         self.placeNames = ko.observableArray();
-        console.log(placeNameList);
+        //console.log(placeList);
 
-        for (var i = 0; i < placeNameList.length; i++) {
-            self.placeNames.push(new PlaceName(placeNameList[i]));
+        for (var i = 0; i < placeList.length; i++) {
+            self.placeNames.push(new PlaceName(placeList[i].name));
         }
 
+        console.log(markers);
         self.Filter = ko.computed(function(sub_str) {
-            self.placeNames.remove(function(item) {
-                if (self.filter_str() == '') {
-                    return false;
-                }
-                //console.log(item.name);
-                return (item.name.indexOf(self.filter_str()) > -1);
-                //console.log(item.name.indexOf(sub_str));
+            self.placeNames([]);
+            for (var i = 0; i < placeList.length; i++) {
+                self.placeNames.push(new PlaceName(placeList[i].name));
+            }
+
+            for (var key in markers) {
+                markers[key].setVisible(true);
+            }
+
+            removeList = self.placeNames.remove(function(item) {
+                return (item.name.indexOf(self.filter_str()) <= -1);
             });
-            //console.log("FILTER");
-            //console.log(self.placeNames());
+
+            console.log("Rmv List");
+            console.log(removeList);
+            console.log(markers);
+            for (var i = 0; i < removeList.length; i++) {
+                for (var key in markers) {
+                    if (key == removeList[i].name) {
+                        markers[key].setVisible(false);
+                    }
+                }
+            }
         }, this);
     }
 
@@ -90,6 +106,8 @@ function createMarker(place) {
         //console.log('MARK CLICKED');
         console.log(place);
     });
+
+    return marker;
 }
 
 
@@ -118,26 +136,5 @@ $(function() {
         }
     });
 
-    //////////////
-    /*
-    function PlaceName(name) {
-        var self = this;
-        self.name = name;
-    }
-
-    function ListGroupViewModel() {
-        var self = this;
-
-        self.placeNames = ko.observableArray();
-        console.log(placeNameList);
-
-        //for (var i = 0; i < placeNameList.length; i++) {
-        for (var i = 0; i < 10; i++) {
-            self.placeNames.push(new PlaceName("hello"));
-        }
-    }
-
-    ko.applyBindings(new ListGroupViewModel());
-    */
 }());
 /////////////////////////////////
