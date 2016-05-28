@@ -128,7 +128,6 @@ function ListGroupViewModel() {
 function createMarker(place) {
     var markerDetail = $('#myModal');
     var markerDetailTitle = $('#myModalLabel');
-    var modalImg = $('#streetImg');
 
     var placeLoc = place.geometry.location;
     var marker = new google.maps.Marker({
