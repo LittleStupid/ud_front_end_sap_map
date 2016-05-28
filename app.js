@@ -38,8 +38,9 @@ function callback(results, status) {
         for (var i = 0; i < results.length; i++) {
             markers[results[i].name] = createMarker(results[i]);
             placeList.push(results[i]);
-
         }
+    } else {
+        console.log("Failed to get google map service");
     }
 
     //reg left list group mvc
