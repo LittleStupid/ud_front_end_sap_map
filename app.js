@@ -8,8 +8,8 @@ var markers = {};
 
 function initMap() {
     var pyrmont = {
-        lat: -33.867,
-        lng: 151.195
+        lat: 37.424,
+        lng: -122.165
     };
 
     map = new google.maps.Map(document.getElementById('map'), {
@@ -22,7 +22,7 @@ function initMap() {
     service.nearbySearch({
         location: pyrmont,
         radius: 500,
-        type: ['store']
+        type: ['university']
     }, callback);
 }
 
@@ -106,22 +106,28 @@ function createMarker(place) {
         marker.setAnimation(google.maps.Animation.BOUNCE);
 
         infowindow.setContent(place.name);
-        //infowindow.open(map, this);
+        infowindow.open(map, this);
+
+        lat = place.geometry.location.lat();
+        lng = place.geometry.location.lng();
+
+        var queryStr = 'https://api.foursquare.com/v2/venues/search?ll=' + lat + ',' + lng + '&client_id=43PPM4KVWLCZKQGUZT3NI3IVSCOLDPIV0JKUQQE21LKGVH1I&client_secret=H3MMRW351WAA5PS4HM1K3NBOAKUDU0QMQPNBBK2GXPGOUZTR&v=20150101';
+        $.getJSON(queryStr, function(data) {
+            console.log(data);
+        });
 
         //console.log(place);
         //console.log(marker);
-        lat = place.geometry.location.lat();
-        lng = place.geometry.location.lng();
-        var address = 'https://maps.googleapis.com/maps/api/streetview?size=400x400&fov=90&heading=235&pitch=10&key=AIzaSyBW0BnFi_VnKwIYhLU7l875RVO3HeGIgpI&location=' + lat + ',' + lng;
-        console.log(address);
-        modalImg.attr('src', address);
+        //var address = 'https://maps.googleapis.com/maps/api/streetview?size=400x400&fov=90&heading=235&pitch=10&key=AIzaSyBW0BnFi_VnKwIYhLU7l875RVO3HeGIgpI&location=' + lat + ',' + lng;
+        //console.log(address);
+        //modalImg.attr('src', address);
+
         markerDetailTitle.text(place.name);
         markerDetail.modal('show');
     });
 
     return marker;
 }
-//'https://maps.googleapis.com/maps/api/streetview?size=400x400&fov=90&heading=235&pitch=10&key=AIzaSyBW0BnFi_VnKwIYhLU7l875RVO3HeGIgpI&location=' + lat + ',' + lng
 
 $(function() {
     console.log("test Init")
