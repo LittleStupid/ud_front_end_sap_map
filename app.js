@@ -89,7 +89,7 @@ function ListGroupViewModel() {
 
     self.listItemClick = function(info) {
         google.maps.event.trigger(markers[info.name], 'click');
-    }
+    };
 
     ///////////////SHOP///////////////
     self.shops = ko.observableArray();
@@ -119,12 +119,12 @@ function ListGroupViewModel() {
         for (var i = 0; i < shopData.length; i++) {
             self.shops.push(new Shop(shopData[i]));
         }
-    }
+    };
 }
 
 function createMarker(place) {
     var markerDetail = $('#myModal');
-    var markerDetailTitle = $('#myModalLabel')
+    var markerDetailTitle = $('#myModalLabel');
     var modalImg = $('#streetImg');
 
     var placeLoc = place.geometry.location;
