@@ -58,7 +58,7 @@ function ListGroupViewModel() {
     var self = this;
 
     //////////////////////Bind Left List Group///////////////////////
-    self.filter_str = ko.observable('');
+    self.filterStr = ko.observable('');
     self.placeNames = ko.observableArray();
 
     for (var i = 0; i < placeList.length; i++) {
@@ -78,7 +78,7 @@ function ListGroupViewModel() {
         }
 
         removeList = self.placeNames.remove(function(item) {
-            return (item.name.indexOf(self.filter_str()) <= -1);
+            return (item.name.indexOf(self.filterStr()) <= -1);
         });
 
         for (var i = 0; i < removeList.length; i++) {
