@@ -71,7 +71,9 @@ function ListGroupViewModel() {
         }
 
         for (var key in markers) {
-            markers[key].setVisible(true);
+            if (markers[key]) {
+                markers[key].setVisible(true);
+            }
         }
 
         removeList = self.placeNames.remove(function(item) {
