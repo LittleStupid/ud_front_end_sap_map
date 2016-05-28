@@ -65,7 +65,7 @@ function ListGroupViewModel() {
         self.placeNames.push(new PlaceName(placeList[i].name));
     }
 
-    self.Filter = ko.computed(function(sub_str) {
+    self.Filter = ko.computed(function() {
         self.placeNames([]);
         for (var i = 0; i < placeList.length; i++) {
             self.placeNames.push(new PlaceName(placeList[i].name));
