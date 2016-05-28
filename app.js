@@ -1,10 +1,9 @@
-//$(function() {
-
 var map;
 var infowindow;
 
 var placeList = [];
 var markers = {};
+var mvc;
 
 function initMap() {
     var pyrmont = {
@@ -43,50 +42,84 @@ function callback(results, status) {
         }
     }
 
-    function PlaceName(name) {
-        var self = this;
-        self.name = name;
+    //reg left list group mvc
+    mvc = new ListGroupViewModel();
+    ko.applyBindings(mvc);
+}
+
+//------begin: Left list group MVC
+function PlaceName(name) {
+    var self = this;
+    self.name = name;
+}
+
+function ListGroupViewModel() {
+    var self = this;
+
+    //////////////////////Bind Left List Group///////////////////////
+    self.filter_str = ko.observable('');
+    self.placeNames = ko.observableArray();
+
+    for (var i = 0; i < placeList.length; i++) {
+        self.placeNames.push(new PlaceName(placeList[i].name));
     }
 
-    function ListGroupViewModel() {
-        var self = this;
-
-        self.filter_str = ko.observable('');
-        self.placeNames = ko.observableArray();
-
+    self.Filter = ko.computed(function(sub_str) {
+        self.placeNames([]);
         for (var i = 0; i < placeList.length; i++) {
             self.placeNames.push(new PlaceName(placeList[i].name));
         }
 
-        self.Filter = ko.computed(function(sub_str) {
-            self.placeNames([]);
-            for (var i = 0; i < placeList.length; i++) {
-                self.placeNames.push(new PlaceName(placeList[i].name));
-            }
+        for (var key in markers) {
+            markers[key].setVisible(true);
+        }
 
+        removeList = self.placeNames.remove(function(item) {
+            return (item.name.indexOf(self.filter_str()) <= -1);
+        });
+
+        for (var i = 0; i < removeList.length; i++) {
             for (var key in markers) {
-                markers[key].setVisible(true);
-            }
-
-            removeList = self.placeNames.remove(function(item) {
-                return (item.name.indexOf(self.filter_str()) <= -1);
-            });
-
-            for (var i = 0; i < removeList.length; i++) {
-                for (var key in markers) {
-                    if (key == removeList[i].name) {
-                        markers[key].setVisible(false);
-                    }
+                if (key == removeList[i].name) {
+                    markers[key].setVisible(false);
                 }
             }
-        }, this);
+        }
+    }, this);
 
-        self.listItemClick = function(info) {
-            google.maps.event.trigger(markers[info.name], 'click');
+    self.listItemClick = function(info) {
+        google.maps.event.trigger(markers[info.name], 'click');
+    }
+
+    ///////////////SHOP///////////////
+    self.shops = ko.observableArray();
+
+    //bind nearby shop into popup board list
+    function Shop(info) {
+        var self = this;
+
+        this.detail = '';
+
+        if (info.name) {
+            this.detail = info.name;
+            this.detail += ' : ';
+        }
+
+        if (info.location && info.location.address) {
+            this.detail += info.location.address;
+        } else {
+            this.detail += 'no address';
         }
     }
 
-    ko.applyBindings(new ListGroupViewModel());
+    self.SetShops = function(data) {
+        self.shops([]);
+
+        shopData = data.response.venues;
+        for (var i = 0; i < shopData.length; i++) {
+            self.shops.push(new Shop(shopData[i]));
+        }
+    }
 }
 
 function createMarker(place) {
@@ -106,32 +139,27 @@ function createMarker(place) {
         marker.setAnimation(google.maps.Animation.BOUNCE);
 
         infowindow.setContent(place.name);
-        infowindow.open(map, this);
+        //infowindow.open(map, this);
 
         lat = place.geometry.location.lat();
         lng = place.geometry.location.lng();
 
+        //get json from foursquare
         var queryStr = 'https://api.foursquare.com/v2/venues/search?ll=' + lat + ',' + lng + '&client_id=43PPM4KVWLCZKQGUZT3NI3IVSCOLDPIV0JKUQQE21LKGVH1I&client_secret=H3MMRW351WAA5PS4HM1K3NBOAKUDU0QMQPNBBK2GXPGOUZTR&v=20150101';
         $.getJSON(queryStr, function(data) {
-            console.log(data);
+            mvc.SetShops(data);
+            markerDetailTitle.text('What can be found near ' + place.name + '.');
+            markerDetail.modal('show');
+        }).error(function(e) {
+            console.log('we cannot query from the server!');
         });
-
-        //console.log(place);
-        //console.log(marker);
-        //var address = 'https://maps.googleapis.com/maps/api/streetview?size=400x400&fov=90&heading=235&pitch=10&key=AIzaSyBW0BnFi_VnKwIYhLU7l875RVO3HeGIgpI&location=' + lat + ',' + lng;
-        //console.log(address);
-        //modalImg.attr('src', address);
-
-        markerDetailTitle.text(place.name);
-        markerDetail.modal('show');
     });
 
     return marker;
 }
 
+//for responsive left group list.If screen is too small, list group will be toggled by top_icon.
 $(function() {
-    console.log("test Init")
-
     var brandIcon = $('#navBrandIcon');
     var leftListGroup = $('#leftBoard');
     var rightMap = $('#map');

@@ -48,7 +48,7 @@
 
     </main>
 
-    <!-- Modal -->
+    <!-- Modal for  popup board-->
     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -57,7 +57,9 @@
                     <h4 class="modal-title" id="myModalLabel"></h4>
                 </div>
                 <div class="modal-body">
-                    <img id="streetImg" src="" class="center-block img-responsive" alt="google street view">
+                    <div class="list-group" data-bind="foreach: shops">
+                        <a href="#" class="list-group-item active" data-bind="text: detail"></a>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
