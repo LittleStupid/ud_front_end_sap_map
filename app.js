@@ -78,7 +78,7 @@ function ListGroupViewModel() {
         }
 
         removeList = self.placeNames.remove(function(item) {
-            return (item.name.indexOf(self.filterStr()) <= -1);
+            return (item.name.toLowerCase().indexOf(self.filterStr().toLowerCase()) <= -1);
         });
 
         for (var i = 0; i < removeList.length; i++) {
