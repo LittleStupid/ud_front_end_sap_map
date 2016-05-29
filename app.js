@@ -60,31 +60,33 @@ function ViewModel() {
     //////////////////////Bind Left List Group///////////////////////
     self.filterStr = ko.observable('');
     self.placeNames = ko.observableArray();
+    self.allPlaceName = [];
 
     for (var i = 0; i < placeList.length; i++) {
         self.placeNames.push(new PlaceName(placeList[i].name));
+        self.allPlaceName.push(new PlaceName(placeList[i].name));
     }
 
-    self.filter = ko.computed(function() {
-        self.placeNames([]);
-        for (var i = 0; i < placeList.length; i++) {
-            self.placeNames.push(new PlaceName(placeList[i].name));
+    self.placeNames = ko.computed(function() {
+        var filter = this.filterStr().toLowerCase();
+        if (!filter || filter == '') {
+            return self.allPlaceName;
+        } else {
+            return ko.utils.arrayFilter(self.allPlaceName, function(placeName) {
+                return (placeName.name.toLowerCase().indexOf(self.filterStr().toLowerCase()) > -1);
+            });
         }
+    }, this);
 
+    self.setMarkerVisiblity = ko.computed(function() {
         for (var key in markers) {
-            if (markers[key]) {
-                markers[key].setVisible(true);
-            }
+            markers[key].setVisible(false);
         }
 
-        removeList = self.placeNames.remove(function(item) {
-            return (item.name.toLowerCase().indexOf(self.filterStr().toLowerCase()) <= -1);
-        });
-
-        for (var i = 0; i < removeList.length; i++) {
+        for (var i = 0; i < self.placeNames().length; i++) {
             for (var key in markers) {
-                if (key == removeList[i].name) {
-                    markers[key].setVisible(false);
+                if (key == self.placeNames()[i].name) {
+                    markers[key].setVisible(true);
                 }
             }
         }
