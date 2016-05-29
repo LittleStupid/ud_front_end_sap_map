@@ -1,3 +1,13 @@
 .right_map {
   height: 90vh;
 };
+
+.list-group .list-group-item.active {
+  word-wrap: break-word !important;
+  color: red !important;
+};
+
+.break_word {
+   word-wrap: break-word;
+   color: red;
+ };
