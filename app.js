@@ -5,6 +5,10 @@ var placeList = [];
 var markers = {};
 var mvc;
 
+function googleError() {
+    console.log('Failed to Load Google Map');
+}
+
 function initMap() {
     var pyrmont = {
         lat: 37.424,

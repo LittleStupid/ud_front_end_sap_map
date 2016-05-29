@@ -78,7 +78,11 @@
 
     <script src='knockout-3.4.0.js'></script>
     <script src="app.js"></script>
-    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBW0BnFi_VnKwIYhLU7l875RVO3HeGIgpI&libraries=places&callback=initMap">
+
+    <!--
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=1AIzaSyBW0BnFi_VnKwIYhLU7l875RVO3HeGIgpI&libraries=places&callback=initMap" onerror="function(){ console.log('Failed to load Google Map'); };">
+    -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBW0BnFi_VnKwIYhLU7l875RVO3HeGIgpI&libraries=places&callback=initMap" onerror="googleError()">
     </script>
 </body>
 
