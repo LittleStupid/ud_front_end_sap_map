@@ -44,7 +44,7 @@ function callback(results, status) {
     }
 
     //reg left list group mvc
-    mvc = new ListGroupViewModel();
+    mvc = new ViewModel();
     ko.applyBindings(mvc);
 }
 
@@ -54,7 +54,7 @@ function PlaceName(name) {
     self.name = name;
 }
 
-function ListGroupViewModel() {
+function ViewModel() {
     var self = this;
 
     //////////////////////Bind Left List Group///////////////////////
