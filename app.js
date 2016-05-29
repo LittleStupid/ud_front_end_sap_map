@@ -67,6 +67,7 @@ function ViewModel() {
         self.allPlaceName.push(new PlaceName(placeList[i].name));
     }
 
+    //update placeNames when filterStr is updated.
     self.placeNames = ko.computed(function() {
         var filter = this.filterStr().toLowerCase();
         if (!filter || filter == '') {
@@ -78,6 +79,7 @@ function ViewModel() {
         }
     }, this);
 
+    //update markers' visibility when placeNames is updated.
     self.setMarkerVisiblity = ko.computed(function() {
         for (var key in markers) {
             markers[key].setVisible(false);
