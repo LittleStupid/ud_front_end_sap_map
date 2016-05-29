@@ -130,6 +130,11 @@ function ViewModel() {
     self.setModalTitle = function(placeName) {
         self.markerDetailTitle('What can be found near ' + placeName + '.');
     }
+
+    self.setErrorMsg = function(errMsg) {
+        self.shops([]);
+        self.markerDetailTitle(errMsg);
+    }
 }
 
 function createMarker(place) {
@@ -157,11 +162,11 @@ function createMarker(place) {
         var queryStr = 'https://api.foursquare.com/v2/venues/search?ll=' + lat + ',' + lng + '&client_id=43PPM4KVWLCZKQGUZT3NI3IVSCOLDPIV0JKUQQE21LKGVH1I&client_secret=H3MMRW351WAA5PS4HM1K3NBOAKUDU0QMQPNBBK2GXPGOUZTR&v=20150101';
         $.getJSON(queryStr, function(data) {
             mvc.setShops(data);
-            //markerDetailTitle.text('What can be found near ' + place.name + '.');
             mvc.setModalTitle(place.name);
             markerDetail.modal('show');
         }).error(function(e) {
-            console.log('we cannot query from the server!');
+            mvc.setErrorMsg('we cannot query from the server!');
+            markerDetail.modal('show');
         });
     });
 
