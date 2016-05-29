@@ -70,7 +70,7 @@ function ViewModel() {
     //update placeNames when filterStr is updated.
     self.placeNames = ko.computed(function() {
         var filter = this.filterStr().toLowerCase();
-        if (!filter || filter == '') {
+        if (!filter || filter === '') {
             return self.allPlaceName;
         } else {
             return ko.utils.arrayFilter(self.allPlaceName, function(placeName) {
@@ -82,7 +82,9 @@ function ViewModel() {
     //update markers' visibility when placeNames is updated.
     self.setMarkerVisiblity = ko.computed(function() {
         for (var key in markers) {
-            markers[key].setVisible(false);
+            if (markers.hasOwnProperty(key)) {
+                markers[key].setVisible(false);
+            }
         }
 
         for (var i = 0; i < self.placeNames().length; i++) {
@@ -133,12 +135,12 @@ function ViewModel() {
 
     self.setModalTitle = function(placeName) {
         self.markerDetailTitle('What can be found near ' + placeName + '.');
-    }
+    };
 
     self.setErrorMsg = function(errMsg) {
         self.shops([]);
         self.markerDetailTitle(errMsg);
-    }
+    };
 }
 
 function createMarker(place) {
