@@ -65,7 +65,7 @@ function ViewModel() {
         self.placeNames.push(new PlaceName(placeList[i].name));
     }
 
-    self.Filter = ko.computed(function() {
+    self.filter = ko.computed(function() {
         self.placeNames([]);
         for (var i = 0; i < placeList.length; i++) {
             self.placeNames.push(new PlaceName(placeList[i].name));
@@ -115,7 +115,7 @@ function ViewModel() {
         }
     }
 
-    self.SetShops = function(data) {
+    self.setShops = function(data) {
         self.shops([]);
 
         shopData = data.response.venues;
@@ -128,9 +128,7 @@ function ViewModel() {
     self.markerDetailTitle = ko.observable('');
 
     self.setModalTitle = function(placeName) {
-        console.log(placeName);
         self.markerDetailTitle('What can be found near ' + placeName + '.');
-        console.log(self.markerDetailTitle);
     }
 }
 
@@ -158,7 +156,7 @@ function createMarker(place) {
         //get json from foursquare
         var queryStr = 'https://api.foursquare.com/v2/venues/search?ll=' + lat + ',' + lng + '&client_id=43PPM4KVWLCZKQGUZT3NI3IVSCOLDPIV0JKUQQE21LKGVH1I&client_secret=H3MMRW351WAA5PS4HM1K3NBOAKUDU0QMQPNBBK2GXPGOUZTR&v=20150101';
         $.getJSON(queryStr, function(data) {
-            mvc.SetShops(data);
+            mvc.setShops(data);
             //markerDetailTitle.text('What can be found near ' + place.name + '.');
             mvc.setModalTitle(place.name);
             markerDetail.modal('show');
