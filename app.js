@@ -1,5 +1,4 @@
 var map;
-var infowindow;
 
 var placeList = [];
 var markers = {};
@@ -22,7 +21,6 @@ function initMap() {
         zoom: 15
     });
 
-    infowindow = new google.maps.InfoWindow();
     var service = new google.maps.places.PlacesService(map);
     service.nearbySearch({
         location: pyrmont,
@@ -48,12 +46,8 @@ function callback(results, status) {
     } else {
         mvc.setErrorMsg('Failed to get google map service');
         markerDetail.modal('show');
-        //console.log("Failed to get google map service");
     }
 
-    //reg left list group mvc
-    //mvc = new ViewModel();
-    //ko.applyBindings(mvc);
     console.log('second init begin');
     mvc.init();
     console.log('second init end');
@@ -76,7 +70,6 @@ function ViewModel() {
 
     self.init = function() {
         for (var i = 0; i < placeList.length; i++) {
-            //self.placeNames.push(new PlaceName(placeList[i].name));
             self.allPlaceName.push(new PlaceName(placeList[i].name));
         }
 
@@ -173,9 +166,6 @@ function createMarker(place) {
         stopAllMarksAnimation();
         marker.setAnimation(google.maps.Animation.BOUNCE);
 
-        infowindow.setContent(place.name);
-        //infowindow.open(map, this);
-
         lat = place.geometry.location.lat();
         lng = place.geometry.location.lng();
 
@@ -216,9 +206,9 @@ $(function() {
         }
     });
 
-    //reg left list group mvc
 }());
 
+//reg mvc
 mvc = new ViewModel();
 ko.applyBindings(mvc);
 console.log('First Bind');
