@@ -4,9 +4,11 @@ var infowindow;
 var placeList = [];
 var markers = {};
 var mvc;
+var markerDetail = $('#myModal');
 
 function googleError() {
-    console.log('Failed to Load Google Map');
+    mvc.setErrorMsg('Failed to Load Google Map');
+    markerDetail.modal('show');
 }
 
 function initMap() {
@@ -44,12 +46,17 @@ function callback(results, status) {
             placeList.push(results[i]);
         }
     } else {
-        console.log("Failed to get google map service");
+        mvc.setErrorMsg('Failed to get google map service');
+        markerDetail.modal('show');
+        //console.log("Failed to get google map service");
     }
 
     //reg left list group mvc
-    mvc = new ViewModel();
-    ko.applyBindings(mvc);
+    //mvc = new ViewModel();
+    //ko.applyBindings(mvc);
+    console.log('second init begin');
+    mvc.init();
+    console.log('second init end');
 }
 
 //------begin: Left list group MVC
@@ -62,14 +69,19 @@ function ViewModel() {
     var self = this;
 
     //////////////////////Bind Left List Group///////////////////////
-    self.filterStr = ko.observable('');
+    self.filterStr = ko.observable('*');
     self.placeNames = ko.observableArray();
     self.allPlaceName = [];
 
-    for (var i = 0; i < placeList.length; i++) {
-        self.placeNames.push(new PlaceName(placeList[i].name));
-        self.allPlaceName.push(new PlaceName(placeList[i].name));
-    }
+
+    self.init = function() {
+        for (var i = 0; i < placeList.length; i++) {
+            //self.placeNames.push(new PlaceName(placeList[i].name));
+            self.allPlaceName.push(new PlaceName(placeList[i].name));
+        }
+
+        self.filterStr('');
+    };
 
     //update placeNames when filterStr is updated.
     self.placeNames = ko.computed(function() {
@@ -148,7 +160,6 @@ function ViewModel() {
 }
 
 function createMarker(place) {
-    var markerDetail = $('#myModal');
     var markerDetailTitle = $('#myModalLabel');
 
     var placeLoc = place.geometry.location;
@@ -204,4 +215,10 @@ $(function() {
             rightMap.addClass('col-sm-12 col-xs-12');
         }
     });
+
+    //reg left list group mvc
 }());
+
+mvc = new ViewModel();
+ko.applyBindings(mvc);
+console.log('First Bind');
