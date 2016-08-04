@@ -9,3 +9,5 @@ use foursquare to query informations, see more [here](https://developer.foursqua
 
 ###How To Open:
 open index.html with your browser.
+
+![image](https://github.com/LittleStupid/ud_front_end_sap_map/blob/master/google_map_app_demo.gif)
